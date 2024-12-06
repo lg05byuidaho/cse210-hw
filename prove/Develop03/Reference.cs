@@ -1,38 +1,17 @@
+// File: Reference.cs
 public class Reference
 {
-    private string _book;
-    private int _chapter;
-    private int _verse;
-    private int _endVerse;
+    public string Text { get; private set; }
 
-    // Constructor for single verse
-    public Reference(string book, int chapter, int verse)
+    // Constructor for a single verse
+    public Reference(string reference)
     {
-        _book = book;
-        _chapter = chapter;
-        _verse = verse;
-        _endVerse = -1; // Indicating no end verse
+        Text = reference;
     }
 
-    // Constructor for verse range (e.g., Proverbs 3:5-6)
-    public Reference(string book, int chapter, int verse, int endVerse)
+    // Constructor for a verse range
+    public Reference(string startVerse, string endVerse)
     {
-        _book = book;
-        _chapter = chapter;
-        _verse = verse;
-        _endVerse = endVerse;
-    }
-
-    // Get the display text of the reference
-    public string GetDisplayText()
-    {
-        if (_endVerse == -1)
-        {
-            return $"{_book} {_chapter}:{_verse}";
-        }
-        else
-        {
-            return $"{_book} {_chapter}:{_verse}-{_endVerse}";
-        }
+        Text = $"{startVerse}-{endVerse}";
     }
 }

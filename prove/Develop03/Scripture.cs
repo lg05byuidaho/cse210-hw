@@ -1,63 +1,53 @@
+// File: Scripture.cs
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 public class Scripture
 {
     private Reference _reference;
     private List<Word> _words;
 
-    public Scripture(string text, Reference reference)
+    public Scripture(string reference, string text)
     {
-        _reference = reference;
+        _reference = new Reference(reference);
         _words = new List<Word>();
-        
-        // Split the scripture text into words and create Word objects
-        string[] wordArray = text.Split(' ');
-        foreach (var word in wordArray)
+        string[] textWords = text.Split(' ');
+
+        foreach (string word in textWords)
         {
             _words.Add(new Word(word));
         }
     }
 
-    // Hide a random number of words
-    public void HideRandomWords(int numberToHide)
+    // Display the scripture with hidden words (replacing with underscores)
+    public void DisplayScripture()
+    {
+        StringBuilder scriptureText = new StringBuilder(_reference.Text + " ");
+        foreach (Word word in _words)
+        {
+            scriptureText.Append(word.IsHidden ? word.HiddenText : word.Text);
+            scriptureText.Append(" ");
+        }
+        Console.WriteLine(scriptureText.ToString().Trim());
+    }
+
+    // Hide a random word
+    public void HideRandomWord()
     {
         Random rand = new Random();
-        int wordsHidden = 0;
-        
-        while (wordsHidden < numberToHide)
-        {
-            int index = rand.Next(0, _words.Count);
-            Word word = _words[index];
-            if (!word.IsHidden())
-            {
-                word.Hide();
-                wordsHidden++;
-            }
-        }
+        List<Word> visibleWords = _words.Where(w => !w.IsHidden).ToList();
+
+        if (visibleWords.Count == 0) return; // No words left to hide
+
+        Word wordToHide = visibleWords[rand.Next(visibleWords.Count)];
+        wordToHide.Hide();
     }
 
-    // Get the text of the scripture with hidden words replaced by underscores
-    public string GetDisplayText()
+    // Check if all words are hidden
+    public bool AllWordsHidden()
     {
-        string displayText = _reference.GetDisplayText() + " ";
-        foreach (var word in _words)
-        {
-            displayText += word.GetDisplayText() + " ";
-        }
-        return displayText.Trim();
-    }
-
-    // Check if all words in the scripture are hidden
-    public bool IsCompletelyHidden()
-    {
-        foreach (var word in _words)
-        {
-            if (!word.IsHidden())
-            {
-                return false;
-            }
-        }
-        return true;
+        return _words.All(w => w.IsHidden);
     }
 }

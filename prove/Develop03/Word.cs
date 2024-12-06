@@ -1,35 +1,19 @@
+// File: Word.cs
 public class Word
 {
-    private string _text;
-    private bool _isHidden;
+    public string Text { get; private set; }
+    public bool IsHidden { get; private set; }
+    public string HiddenText => new string('_', Text.Length);
 
     public Word(string text)
     {
-        _text = text;
-        _isHidden = false; // Initially, word is visible
+        Text = text;
+        IsHidden = false;
     }
 
-    // Hide the word
+    // Hide the word by marking it as hidden
     public void Hide()
     {
-        _isHidden = true;
-    }
-
-    // Show the word
-    public void Show()
-    {
-        _isHidden = false;
-    }
-
-    // Check if the word is hidden
-    public bool IsHidden()
-    {
-        return _isHidden;
-    }
-
-    // Get the display text of the word (either the word or underscores)
-    public string GetDisplayText()
-    {
-        return _isHidden ? "______" : _text;
+        IsHidden = true;
     }
 }
