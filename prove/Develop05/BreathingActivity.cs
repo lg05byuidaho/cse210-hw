@@ -1,14 +1,24 @@
-// BreathingActivity.cs
-using System;
-
 public class BreathingActivity : Activity
 {
-    public BreathingActivity() : base("Breathing Activity", "A simple breathing exercise to help you relax", 60)
-    {
-    }
+    public BreathingActivity() : base("Breathing", "This activity will help you relax by guiding you through deep breathing exercises. Focus on your breath and clear your mind.")
+    { }
 
-    public void Run()
+    public override void ExecuteActivity()
     {
-        // Implementation of the breathing exercise
+        Console.Clear();
+        StartActivity();
+
+        DateTime startTime = DateTime.Now;
+        DateTime endTime = startTime.AddSeconds(duration);
+
+        while (DateTime.Now < endTime)
+        {
+            Console.WriteLine("Breathe in...");
+            ShowSpinner(3); // Pause with spinner
+            Console.WriteLine("Breathe out...");
+            ShowSpinner(3); // Pause with spinner
+        }
+
+        EndActivity();
     }
 }

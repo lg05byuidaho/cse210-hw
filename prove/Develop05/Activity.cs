@@ -1,36 +1,66 @@
-// Activity.cs
 using System;
+using System.Threading;
 
-public class Activity
+public abstract class Activity
 {
-    protected string _name;
-    protected string _description;
-    protected int _duration;
+    protected string name;
+    protected string description;
+    protected int duration;
 
-    public Activity(string name, string description, int duration)
+    // Constructor to initialize the activity
+    public Activity(string name, string description)
     {
-        _name = name;
-        _description = description;
-        _duration = duration;
+        this.name = name;
+        this.description = description;
     }
 
-    public void DisplayStartingMessage()
+    // Set the duration for the activity
+    public void SetDuration(int durationInSeconds)
     {
-        // Code to display the starting message
+        duration = durationInSeconds;
     }
 
-    public void DisplayEndingMessage()
+    // Display the start message for the activity
+    public void StartActivity()
     {
-        // Code to display the ending message
+        Console.Clear();
+        Console.WriteLine($"Starting {name}...");
+        Console.WriteLine(description);
+        Console.WriteLine($"Please set the duration (in seconds): ");
+        int durationInput = int.Parse(Console.ReadLine());
+        SetDuration(durationInput);
+
+        // Countdown before starting
+        Console.WriteLine("Get ready...");
+        ShowSpinner(3);
     }
 
+    // Display a common ending message for all activities
+    public void EndActivity()
+    {
+        Console.Clear();
+        Console.WriteLine($"Well done! You completed {name} for {duration} seconds.");
+        ShowSpinner(3);
+    }
+
+    // Show a spinner animation during pauses
     public void ShowSpinner(int seconds)
     {
-        // Code to show a spinner for a given time
+        for (int i = 0; i < seconds; i++)
+        {
+            Console.Write("|");
+            Thread.Sleep(500);
+            Console.Write("\b/");
+            Thread.Sleep(500);
+            Console.Write("\b-");
+            Thread.Sleep(500);
+            Console.Write("\b\\");
+            Thread.Sleep(500);
+            Console.Write("\b|");
+            Thread.Sleep(500);
+        }
     }
 
-    public void ShowCountDown(int seconds)
-    {
-        // Code to show a countdown timer for the given time
-    }
+    // Abstract method to be implemented by derived classes
+    public abstract void ExecuteActivity();
 }

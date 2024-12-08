@@ -1,40 +1,41 @@
-// Program.cs
-using System;
-
-class Program
+public class Program
 {
     static void Main(string[] args)
     {
-        // Display menu and get user input for activity selection
-        Console.WriteLine("Welcome to the Mindfulness Program!");
-
-        // Example menu with options
-        Console.WriteLine("1. Breathing Activity");
-        Console.WriteLine("2. Listing Activity");
-        Console.WriteLine("3. Reflecting Activity");
-        Console.WriteLine("Please select an activity by typing the number:");
-
-        string userChoice = Console.ReadLine();
-
-        switch (userChoice)
+        bool running = true;
+        while (running)
         {
-            case "1":
-                BreathingActivity breathingActivity = new BreathingActivity();
-                breathingActivity.Run();
-                break;
-            case "2":
-                ListingActivity listingActivity = new ListingActivity();
-                listingActivity.Run();
-                break;
-            case "3":
-                ReflectingActivity reflectingActivity = new ReflectingActivity();
-                reflectingActivity.Run();
-                break;
-            default:
-                Console.WriteLine("Invalid choice.");
-                break;
-        }
+            Console.Clear();
+            Console.WriteLine("Welcome to the Mindfulness Program");
+            Console.WriteLine("1. Breathing Activity");
+            Console.WriteLine("2. Reflection Activity");
+            Console.WriteLine("3. Listing Activity");
+            Console.WriteLine("4. Exit");
+            Console.Write("Please select an activity (1-4): ");
+            
+            string choice = Console.ReadLine();
+            Activity activity = null;
 
-        Console.WriteLine("Thank you for using the Mindfulness Program!");
+            switch (choice)
+            {
+                case "1":
+                    activity = new BreathingActivity();
+                    break;
+                case "2":
+                    activity = new ReflectionActivity();
+                    break;
+                case "3":
+                    activity = new ListingActivity();
+                    break;
+                case "4":
+                    running = false;
+                    continue;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    continue;
+            }
+
+            activity.ExecuteActivity();
+        }
     }
 }

@@ -1,35 +1,40 @@
-// ListingActivity.cs
-using System;
-using System.Collections.Generic;
-
 public class ListingActivity : Activity
 {
-    private int _count;
-    private List<string> _prompts;
-
-    public ListingActivity() : base("Listing Activity", "A listing activity to help you reflect on certain topics", 60)
+    private string[] prompts = new string[]
     {
-        _prompts = new List<string>();  // Initialize with a set of prompts
-        _count = 0;  // Initialize count to 0
-    }
+        "Who are people that you appreciate?",
+        "What are personal strengths of yours?",
+        "Who are people that you have helped this week?",
+        "When have you felt the Holy Ghost this month?",
+        "Who are some of your personal heroes?"
+    };
 
-    public string GetRandomPrompt()
-    {
-        // Return a random prompt from the list
-        Random rand = new Random();
-        return _prompts[rand.Next(_prompts.Count)];
-    }
+    public ListingActivity() : base("Listing", "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.")
+    { }
 
-    public List<string> GetListFromUser()
+    public override void ExecuteActivity()
     {
-        // Collect responses from the user for the current prompt
-        List<string> responses = new List<string>();
-        // Logic for gathering user input would go here
-        return responses;
-    }
+        Console.Clear();
+        StartActivity();
 
-    public void Run()
-    {
-        // Run the Listing Activity
+        Random random = new Random();
+        string prompt = prompts[random.Next(prompts.Length)];
+        Console.WriteLine(prompt);
+        ShowSpinner(3);
+
+        DateTime startTime = DateTime.Now;
+        DateTime endTime = startTime.AddSeconds(duration);
+
+        int count = 0;
+        while (DateTime.Now < endTime)
+        {
+            Console.WriteLine("Please list an item: ");
+            string input = Console.ReadLine();
+            count++;
+            ShowSpinner(1); // Pause briefly
+        }
+
+        Console.WriteLine($"You listed {count} items!");
+        EndActivity();
     }
 }
