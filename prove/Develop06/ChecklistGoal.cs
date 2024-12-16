@@ -1,9 +1,8 @@
-// ChecklistGoal.cs
 public class ChecklistGoal : Goal
 {
-    private int _amountCompleted;
-    private int _target;
-    private int _bonus;
+    public int _amountCompleted;
+    public int _target;
+    public int _bonus;
 
     public ChecklistGoal(string shortName, string description, int points, int target, int bonus)
         : base(shortName, description, points)
@@ -13,7 +12,17 @@ public class ChecklistGoal : Goal
         _bonus = bonus;
     }
 
-    // Override to record the event (increment amount completed)
+    // Implement GetPoints for ChecklistGoal
+    public override int GetPoints()
+    {
+        if (IsComplete())
+        {
+            return _points + _bonus; // Return base points + bonus if complete
+        }
+        return _points;
+    }
+
+    // RecordEvent for ChecklistGoal (increments the completion counter)
     public override void RecordEvent()
     {
         if (_amountCompleted < _target)
@@ -22,19 +31,19 @@ public class ChecklistGoal : Goal
         }
     }
 
-    // Override to check if the goal is complete
+    // Check if the goal is complete (if the target is reached)
     public override bool IsComplete()
     {
         return _amountCompleted >= _target;
     }
 
-    // Override to provide details including amount completed
+    // Override GetDetailsString for ChecklistGoal (show progress)
     public override string GetDetailsString()
     {
-        return $"{_shortName}: {_description} ({_amountCompleted}/{_target})";
+        return $"{_shortName}: {_description} - {_amountCompleted}/{_target} completed - {_points} points";
     }
 
-    // Override to provide a string representation for saving to a file
+    // Override GetStringRepresentation to save data
     public override string GetStringRepresentation()
     {
         return $"{_shortName},{_description},{_points},{_amountCompleted},{_target},{_bonus}";

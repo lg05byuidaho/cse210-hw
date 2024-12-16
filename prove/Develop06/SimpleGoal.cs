@@ -1,27 +1,32 @@
-// SimpleGoal.cs
 public class SimpleGoal : Goal
 {
-    private bool _isComplete;
+    public bool _isComplete;
 
-    public SimpleGoal(string shortName, string description, int points) 
+    public SimpleGoal(string shortName, string description, int points)
         : base(shortName, description, points)
     {
         _isComplete = false;
     }
 
-    // Override to record the event (mark it complete)
+    // Implement GetPoints for SimpleGoal
+    public override int GetPoints()
+    {
+        return _points;
+    }
+
+    // RecordEvent for SimpleGoal (marks the goal as complete)
     public override void RecordEvent()
     {
         _isComplete = true;
     }
 
-    // Override to check if the goal is complete
+    // Check if the goal is complete
     public override bool IsComplete()
     {
         return _isComplete;
     }
 
-    // Override to provide a string representation for saving to a file
+    // Override GetStringRepresentation to save goal data
     public override string GetStringRepresentation()
     {
         return $"{_shortName},{_description},{_points},{_isComplete}";

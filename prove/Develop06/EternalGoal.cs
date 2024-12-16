@@ -1,24 +1,31 @@
-// EternalGoal.cs
 public class EternalGoal : Goal
 {
     public EternalGoal(string shortName, string description, int points)
-        : base(shortName, description, points) { }
+        : base(shortName, description, points)
+    {
+    }
 
-    // Override to record the event (Eternal goals don't technically complete)
+    // Implement GetPoints for EternalGoal (same as SimpleGoal)
+    public override int GetPoints()
+    {
+        return _points;
+    }
+
+    // RecordEvent for EternalGoal (does nothing since it's eternal)
     public override void RecordEvent()
     {
-        // Implement specific logic for eternal goals if necessary
+        // No change in state needed for EternalGoal
     }
 
-    // Override to return that eternal goals never complete
+    // Check if the goal is complete (eternal goals are always complete)
     public override bool IsComplete()
     {
-        return false; // Eternal goals never complete
+        return true; // Eternal goals are always considered complete
     }
 
-    // Override to provide a string representation for saving to a file
+    // Override GetStringRepresentation for saving data
     public override string GetStringRepresentation()
     {
-        return $"{_shortName},{_description},{_points}";
+        return $"{_shortName},{_description},{_points},true";
     }
 }
