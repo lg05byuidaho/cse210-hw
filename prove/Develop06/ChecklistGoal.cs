@@ -1,51 +1,37 @@
 public class ChecklistGoal : Goal
 {
-    public int _amountCompleted;
-    public int _target;
-    public int _bonus;
+    private int _timesCompleted;
+    private int _targetTimes;
+    private int _bonusPoints;
 
-    public ChecklistGoal(string shortName, string description, int points, int target, int bonus)
-        : base(shortName, description, points)
+    // Constructor to initialize ChecklistGoal with a name, target count, and bonus points
+    public ChecklistGoal(string name, int targetTimes, int bonusPoints) : base(name)
     {
-        _amountCompleted = 0;
-        _target = target;
-        _bonus = bonus;
+        _timesCompleted = 0;
+        _targetTimes = targetTimes;
+        _bonusPoints = bonusPoints;
     }
 
-    // Implement GetPoints for ChecklistGoal
-    public override int GetPoints()
+    // Override RecordProgress method (Polymorphism)
+    public override void RecordProgress()
     {
-        if (IsComplete())
+        if (_timesCompleted < _targetTimes)
         {
-            return _points + _bonus; // Return base points + bonus if complete
-        }
-        return _points;
-    }
+            _timesCompleted++;
+            Points += 50; // 50 points each time the goal is recorded
 
-    // RecordEvent for ChecklistGoal (increments the completion counter)
-    public override void RecordEvent()
-    {
-        if (_amountCompleted < _target)
-        {
-            _amountCompleted++;
+            // Add bonus points when target is met
+            if (_timesCompleted == _targetTimes)
+            {
+                Points += _bonusPoints;
+            }
         }
     }
 
-    // Check if the goal is complete (if the target is reached)
-    public override bool IsComplete()
+    // Override DisplayStatus method (Polymorphism)
+    public override void DisplayStatus()
     {
-        return _amountCompleted >= _target;
-    }
-
-    // Override GetDetailsString for ChecklistGoal (show progress)
-    public override string GetDetailsString()
-    {
-        return $"{_shortName}: {_description} - {_amountCompleted}/{_target} completed - {_points} points";
-    }
-
-    // Override GetStringRepresentation to save data
-    public override string GetStringRepresentation()
-    {
-        return $"{_shortName},{_description},{_points},{_amountCompleted},{_target},{_bonus}";
+        string status = (_timesCompleted >= _targetTimes) ? "[X]" : "[ ]";
+        Console.WriteLine($"{status} {Name} - Completed {_timesCompleted}/{_targetTimes} times. {Points} points.");
     }
 }

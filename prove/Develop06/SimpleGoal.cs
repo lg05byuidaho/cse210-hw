@@ -1,34 +1,25 @@
 public class SimpleGoal : Goal
 {
-    public bool _isComplete;
-
-    public SimpleGoal(string shortName, string description, int points)
-        : base(shortName, description, points)
+    // Constructor to initialize SimpleGoal with a name and points
+    public SimpleGoal(string name, int points) : base(name)
     {
-        _isComplete = false;
+        Points = points;
     }
 
-    // Implement GetPoints for SimpleGoal
-    public override int GetPoints()
+    // Override RecordProgress method (Polymorphism)
+    public override void RecordProgress()
     {
-        return _points;
+        if (!IsComplete)
+        {
+            IsComplete = true;
+            Points += 100; // Fixed points for completion
+        }
     }
 
-    // RecordEvent for SimpleGoal (marks the goal as complete)
-    public override void RecordEvent()
+    // Override DisplayStatus method (Polymorphism)
+    public override void DisplayStatus()
     {
-        _isComplete = true;
-    }
-
-    // Check if the goal is complete
-    public override bool IsComplete()
-    {
-        return _isComplete;
-    }
-
-    // Override GetStringRepresentation to save goal data
-    public override string GetStringRepresentation()
-    {
-        return $"{_shortName},{_description},{_points},{_isComplete}";
+        string status = IsComplete ? "[X]" : "[ ]";
+        Console.WriteLine($"{status} {Name} - {Points} points");
     }
 }

@@ -1,33 +1,48 @@
 public abstract class Goal
 {
-    // Shared attributes across all goal types
-    public string _shortName;
-    public string _description;
-    public int _points;
+    // Private member variables (encapsulation)
+    private string _name;
+    private int _points;
+    private bool _isComplete;
 
-    // Constructor for common goal attributes
-    public Goal(string shortName, string description, int points)
-    {
-        _shortName = shortName;
-        _description = description;
-        _points = points;
+    // Public property for Name (Encapsulation)
+    public string Name 
+    { 
+        get => _name; 
+        set => _name = value; 
+    }
+    
+    // Public property for Points (Encapsulation)
+    public int Points 
+    { 
+        get => _points; 
+        protected set => _points = value; 
+    }
+    
+    // Public property for IsComplete (Encapsulation)
+    public bool IsComplete 
+    { 
+        get => _isComplete; 
+        protected set => _isComplete = value; 
     }
 
-    // Abstract method for getting points (must be implemented by derived classes)
-    public abstract int GetPoints();
-
-    // Abstract method to record an event (must be implemented by derived classes)
-    public abstract void RecordEvent();
-
-    // Abstract method to check if the goal is complete (must be implemented by derived classes)
-    public abstract bool IsComplete();
-
-    // Method to get details for display (common implementation)
-    public virtual string GetDetailsString()
+    // Constructor to initialize goal with name
+    public Goal(string name)
     {
-        return $"{_shortName}: {_description} - {_points} points";
+        _name = name;
+        _isComplete = false;
+        _points = 0;
     }
 
-    // Abstract method to get a string representation of the goal for saving
-    public abstract string GetStringRepresentation();
+    // Abstract method for recording progress (Polymorphism)
+    public abstract void RecordProgress();
+
+    // Abstract method for displaying goal status (Polymorphism)
+    public abstract void DisplayStatus();
+
+    // Method to get the total points for a goal
+    public virtual int GetPoints()
+    {
+        return _points;
+    }
 }
